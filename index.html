@@ -7,13 +7,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        /* --- ЦВЕТОВАЯ ПАЛИТРА И ПЕРЕМЕННЫЕ --- */
+        /* --- ЦВЕТОВАЯ ПАЛИТРА И БАЗА --- */
         :root {
-            --primary-dark: #0f172a; /* Очень темный синий */
-            --primary-blue: #2563eb; /* Яркий синий */
+            --primary-dark: #0f172a;
+            --primary-blue: #2563eb;
             --primary-hover: #1d4ed8;
-            --light-blue: #eff6ff; /* Светло-голубой фон */
-            --accent-blue: #3b82f6;
+            --light-blue: #f0f9ff;
             --text-dark: #1e293b;
             --text-light: #64748b;
             --white: #ffffff;
@@ -21,18 +20,16 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        
         body { background-color: var(--light-blue); color: var(--text-dark); overflow-x: hidden; scroll-behavior: smooth; }
         a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
+        img { max-width: 100%; height: auto; display: block; }
 
         /* --- НАВИГАЦИЯ --- */
         header {
             position: fixed; top: 0; width: 100%;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px); z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
         .nav-container {
             max-width: 1200px; margin: 0 auto; padding: 15px 20px;
@@ -45,88 +42,94 @@
         .nav-links a { font-weight: 600; color: var(--text-dark); transition: var(--transition); }
         .nav-links a:hover { color: var(--primary-blue); }
 
-        /* Переключатель языков */
-        .lang-switch { display: flex; gap: 10px; background: var(--light-blue); padding: 5px 10px; border-radius: 20px; }
-        .lang-switch button {
-            background: none; border: none; font-weight: 600; color: var(--text-light);
-            cursor: pointer; transition: var(--transition); font-size: 14px;
-        }
+        .lang-switch { display: flex; gap: 10px; background: var(--light-blue); padding: 5px 12px; border-radius: 20px; }
+        .lang-switch button { background: none; border: none; font-weight: 600; color: var(--text-light); cursor: pointer; transition: var(--transition); font-size: 14px; }
         .lang-switch button.active { color: var(--primary-blue); }
 
         .btn {
             background: var(--primary-blue); color: var(--white);
             padding: 12px 28px; border-radius: 8px; font-weight: 600;
-            transition: var(--transition); border: none; cursor: pointer;
-            display: inline-block;
+            transition: var(--transition); border: none; cursor: pointer; display: inline-block;
         }
         .btn:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3); }
+        .btn-outline { background: transparent; color: var(--primary-blue); border: 2px solid var(--primary-blue); }
+        .btn-outline:hover { background: var(--primary-blue); color: var(--white); }
 
         /* --- ГЛАВНЫЙ ЭКРАН (HERO) --- */
         .hero {
-            min-height: 100vh;
-            display: flex; align-items: center; justify-content: center;
-            text-align: center; padding: 100px 20px 20px;
-            background: linear-gradient(135deg, var(--light-blue) 0%, #dbeafe 100%);
-            position: relative; overflow: hidden;
+            padding: 150px 20px 80px;
+            background: linear-gradient(135deg, var(--white) 0%, var(--light-blue) 100%);
         }
-        /* Декоративные круги */
-        .hero::before, .hero::after {
-            content: ''; position: absolute; border-radius: 50%; z-index: 0; filter: blur(60px);
+        .hero-container {
+            max-width: 1200px; margin: 0 auto; display: grid;
+            grid-template-columns: 1fr 1fr; gap: 50px; align-items: center;
         }
-        .hero::before { width: 400px; height: 400px; background: rgba(59, 130, 246, 0.2); top: -100px; left: -100px; }
-        .hero::after { width: 300px; height: 300px; background: rgba(37, 99, 235, 0.15); bottom: 100px; right: -50px; }
-
-        .hero-content { max-width: 800px; position: relative; z-index: 1; }
-        .hero h1 { font-size: 56px; color: var(--primary-dark); margin-bottom: 20px; line-height: 1.1; letter-spacing: -1px; }
+        .hero h1 { font-size: 52px; color: var(--primary-dark); margin-bottom: 20px; line-height: 1.1; }
         .hero h1 span { color: var(--primary-blue); }
-        .hero p { font-size: 20px; color: var(--text-light); margin-bottom: 40px; }
+        .hero p { font-size: 18px; color: var(--text-light); margin-bottom: 30px; line-height: 1.6; }
+        .hero-btns { display: flex; gap: 15px; }
+        
+        .hero-img { width: 100%; border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15); animation: float 6s ease-in-out infinite; }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0px); } }
 
-        /* --- ПРОДУКТЫ И УСЛУГИ --- */
+        /* --- СТАТИСТИКА С ФОНОМ --- */
+        .stats {
+            background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1920&q=80') center/cover;
+            padding: 80px 20px; color: var(--white); text-align: center;
+        }
+        .stats-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+        .stat-item h3 { font-size: 48px; color: var(--primary-blue); margin-bottom: 10px; }
+        .stat-item p { font-size: 18px; font-weight: 600; }
+
+        /* --- ПРОДУКТЫ (ШАХМАТНЫЙ ПОРЯДОК) --- */
         .section { padding: 100px 20px; max-width: 1200px; margin: 0 auto; }
-        .section-title { text-align: center; font-size: 36px; color: var(--primary-dark); margin-bottom: 15px; }
-        .section-subtitle { text-align: center; color: var(--text-light); font-size: 18px; margin-bottom: 60px; }
+        .section-title { text-align: center; font-size: 40px; color: var(--primary-dark); margin-bottom: 15px; }
+        .section-subtitle { text-align: center; color: var(--text-light); font-size: 18px; margin-bottom: 70px; }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .product-row {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+            align-items: center; margin-bottom: 100px;
+        }
+        .product-row:nth-child(even) .prod-text { order: 2; }
+        .product-row:nth-child(even) .prod-img-wrap { order: 1; }
         
-        .card {
-            background: var(--white); padding: 40px 30px;
-            border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        .prod-text h3 { font-size: 32px; color: var(--primary-dark); margin-bottom: 20px; }
+        .prod-text p { font-size: 18px; color: var(--text-light); margin-bottom: 30px; line-height: 1.7; }
+        .prod-features { list-style: none; margin-bottom: 30px; }
+        .prod-features li { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--primary-dark); font-weight: 600; }
+        .prod-features svg { width: 20px; height: 20px; fill: #10b981; }
+
+        .prod-img { border-radius: 20px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); transition: transform 0.3s; }
+        .prod-img:hover { transform: scale(1.02); }
+
+        /* --- УСЛУГИ (КАРТОЧКИ С ФОТО) --- */
+        .services-bg { background-color: var(--white); }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        
+        .service-card {
+            background: var(--light-blue); border-radius: 16px; overflow: hidden;
             transition: var(--transition); border: 1px solid #e2e8f0;
-            position: relative; overflow: hidden;
         }
-        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); border-color: var(--accent-blue); }
-        
-        .icon-box {
-            width: 60px; height: 60px; background: var(--light-blue);
-            border-radius: 12px; display: flex; align-items: center; justify-content: center;
-            margin-bottom: 25px; color: var(--primary-blue);
-        }
-        .icon-box svg { width: 32px; height: 32px; fill: currentColor; }
-        
-        .card h3 { color: var(--primary-dark); font-size: 24px; margin-bottom: 15px; }
-        .card p { color: var(--text-light); line-height: 1.6; }
+        .service-card:hover { transform: translateY(-10px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+        .service-img { height: 200px; width: 100%; object-fit: cover; }
+        .service-content { padding: 30px; }
+        .service-content h3 { color: var(--primary-dark); font-size: 22px; margin-bottom: 15px; }
+        .service-content p { color: var(--text-light); line-height: 1.6; }
 
         /* --- ФОРМА И КОНТАКТЫ --- */
         .contact-section { background: var(--primary-dark); color: var(--white); padding: 100px 20px; }
-        .contact-container { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .contact-container { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.2fr; gap: 50px; align-items: center; }
         
         .contact-info h2 { font-size: 36px; margin-bottom: 20px; }
         .contact-info p { color: #94a3b8; margin-bottom: 30px; font-size: 18px; }
         .socials { display: flex; gap: 15px; margin-top: 20px; }
-        .socials a {
-            display: flex; align-items: center; justify-content: center;
-            width: 45px; height: 45px; background: rgba(255,255,255,0.1); border-radius: 50%;
-            transition: var(--transition);
-        }
+        .socials a { display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; background: rgba(255,255,255,0.1); border-radius: 50%; transition: var(--transition); }
         .socials a:hover { background: var(--primary-blue); transform: scale(1.1); }
 
         .contact-form { background: var(--white); padding: 40px; border-radius: 16px; color: var(--text-dark); }
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; }
-        .form-control {
-            width: 100%; padding: 12px 15px; border: 1px solid #cbd5e1;
-            border-radius: 8px; font-size: 16px; outline: none; transition: border-color 0.3s;
-        }
+        .form-control { width: 100%; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 16px; outline: none; transition: border-color 0.3s; }
         .form-control:focus { border-color: var(--primary-blue); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
         textarea.form-control { resize: vertical; min-height: 120px; }
         
@@ -136,19 +139,24 @@
 
         footer { text-align: center; padding: 30px 20px; background: #0b1120; color: #64748b; font-size: 14px; }
 
-        /* --- АНИМАЦИИ ПРИ СКРОЛЛЕ --- */
-        .reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s ease-out; }
+        /* --- АНИМАЦИИ --- */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* Адаптивность */
+        /* --- АДАПТИВНОСТЬ --- */
         @media (max-width: 992px) {
-            .contact-container { grid-template-columns: 1fr; }
+            .hero-container, .product-row, .contact-container { grid-template-columns: 1fr; gap: 40px; }
+            .product-row:nth-child(even) .prod-text { order: 1; }
+            .product-row:nth-child(even) .prod-img-wrap { order: 2; }
+            .stats-grid { grid-template-columns: 1fr; gap: 30px; }
             .hero h1 { font-size: 42px; }
         }
         @media (max-width: 768px) {
-            .nav-links { display: none; /* Скрываем меню на мобильных для упрощения */ }
+            .nav-links { display: none; }
+            .hero { padding-top: 120px; }
             .hero h1 { font-size: 36px; }
             .contact-form { padding: 25px; }
+            .section { padding: 60px 20px; }
         }
     </style>
 </head>
@@ -167,70 +175,108 @@
                     <button onclick="changeLang('tj')" id="btn-tj">TJ</button>
                 </div>
             </nav>
-            <a href="#contact" class="btn" data-i18n="nav-btn">Связаться</a>
+            <a href="#contact" class="btn" data-i18n="nav-btn">Оставить заявку</a>
         </div>
     </header>
 
     <section class="hero" id="home">
-        <div class="hero-content reveal">
-            <h1 data-i18n="hero-title">Инновационные <span>SaaS-решения</span> для вашего бизнеса</h1>
-            <p data-i18n="hero-desc">Автоматизация процессов, управление лояльностью клиентов и кастомная разработка. Мы создаем технологии, которые помогают вам расти.</p>
-            <a href="#products" class="btn" style="padding: 16px 36px; font-size: 18px;" data-i18n="hero-btn">Узнать больше</a>
+        <div class="hero-container">
+            <div class="hero-text reveal">
+                <h1 data-i18n="hero-title">SaaS-решения для <span>оцифровки</span> вашего бизнеса</h1>
+                <p data-i18n="hero-desc">От электронных очередей до систем лояльности и CRM. Внедряем технологии, которые экономят ваше время и увеличивают прибыль.</p>
+                <div class="hero-btns">
+                    <a href="#products" class="btn" data-i18n="hero-btn-1">Наши продукты</a>
+                    <a href="#contact" class="btn btn-outline" data-i18n="hero-btn-2">Связаться</a>
+                </div>
+            </div>
+            <div class="hero-image reveal">
+                <!-- Замените ссылку ниже на ваш скриншот дашборда, если есть -->
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="SaaS Dashboard" class="hero-img">
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="stats-grid reveal">
+            <div class="stat-item">
+                <h3 data-i18n="stat-1-num">99.9%</h3>
+                <p data-i18n="stat-1-text">Uptime серверов</p>
+            </div>
+            <div class="stat-item">
+                <h3 data-i18n="stat-2-num">3+</h3>
+                <p data-i18n="stat-2-text">Готовых SaaS решения</p>
+            </div>
+            <div class="stat-item">
+                <h3 data-i18n="stat-3-num">100%</h3>
+                <p data-i18n="stat-3-text">Кастомизация под клиента</p>
+            </div>
         </div>
     </section>
 
     <section class="section" id="products">
         <h2 class="section-title reveal" data-i18n="prod-title">Наши продукты</h2>
-        <p class="section-subtitle reveal" data-i18n="prod-subtitle">Готовые решения для быстрого старта</p>
+        <p class="section-subtitle reveal" data-i18n="prod-subtitle">Инструменты, готовые к внедрению в ваш бизнес уже сегодня</p>
         
-        <div class="grid">
-            <!-- Azimut Queue -->
-            <div class="card reveal">
-                <div class="icon-box">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-                </div>
+        <!-- Azimut Queue -->
+        <div class="product-row reveal">
+            <div class="prod-text">
                 <h3>Azimut Queue</h3>
-                <p data-i18n="queue-desc">Система электронной очереди. Избавьтесь от хаоса в залах ожидания, распределяйте потоки клиентов и анализируйте эффективность сотрудников.</p>
+                <p data-i18n="queue-desc">Современная система электронной очереди. Избавьтесь от хаоса в залах ожидания, распределяйте потоки клиентов и анализируйте эффективность сотрудников в реальном времени.</p>
+                <ul class="prod-features">
+                    <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> <span data-i18n="queue-f1">Удобные терминалы выдачи талонов</span></li>
+                    <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> <span data-i18n="queue-f2">Голосовое оповещение</span></li>
+                    <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> <span data-i18n="queue-f3">Детальная аналитика по операторам</span></li>
+                </ul>
             </div>
-            
-            <!-- Azimut Loyalty -->
-            <div class="card reveal" style="transition-delay: 0.2s;">
-                <div class="icon-box">
-                    <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                </div>
+            <div class="prod-img-wrap">
+                <img src="https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&w=800&q=80" alt="Azimut Queue" class="prod-img">
+            </div>
+        </div>
+
+        <!-- Azimut Loyalty -->
+        <div class="product-row reveal">
+            <div class="prod-img-wrap">
+                <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80" alt="Azimut Loyalty" class="prod-img">
+            </div>
+            <div class="prod-text">
                 <h3>Azimut Loyalty</h3>
-                <p data-i18n="loyalty-desc">Программа лояльности для бизнеса. Кэшбэк, бонусные карты, скидки и глубокая аналитика поведения ваших клиентов для увеличения продаж.</p>
+                <p data-i18n="loyalty-desc">Комплексная программа лояльности. Возвращайте клиентов с помощью бонусов, кэшбэка и персонализированных предложений на основе истории их покупок.</p>
+                <ul class="prod-features">
+                    <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> <span data-i18n="loyalty-f1">Настройка системы кэшбэка</span></li>
+                    <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> <span data-i18n="loyalty-f2">Электронные карты в Apple/Google Wallet</span></li>
+                    <li><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> <span data-i18n="loyalty-f3">RFM-анализ аудитории</span></li>
+                </ul>
             </div>
         </div>
     </section>
 
-    <section class="section" id="services" style="background-color: var(--white);">
+    <section class="section services-bg" id="services">
         <h2 class="section-title reveal" data-i18n="serv-title">Кастомная разработка</h2>
-        <p class="section-subtitle reveal" data-i18n="serv-subtitle">Решения, созданные специально под ваши задачи</p>
+        <p class="section-subtitle reveal" data-i18n="serv-subtitle">Если готовых решений недостаточно, мы разработаем продукт с нуля</p>
         
-        <div class="grid">
-            <div class="card reveal">
-                <div class="icon-box">
-                    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+        <div class="grid-3">
+            <div class="service-card reveal">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80" alt="CRM" class="service-img">
+                <div class="service-content">
+                    <h3 data-i18n="crm-title">Индивидуальные CRM/ERP</h3>
+                    <p data-i18n="crm-desc">Уникальные системы управления бизнесом, которые идеально вписываются в ваши процессы, автоматизируя продажи, склад и финансы.</p>
                 </div>
-                <h3 data-i18n="crm-title">Разработка CRM систем</h3>
-                <p data-i18n="crm-desc">Уникальные системы управления бизнесом, которые идеально вписываются в ваши внутренние процессы, без лишнего функционала.</p>
             </div>
             
-            <div class="card reveal" style="transition-delay: 0.2s;">
-                <div class="icon-box">
-                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z"/></svg>
+            <div class="service-card reveal" style="transition-delay: 0.1s;">
+                <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80" alt="Web" class="service-img">
+                <div class="service-content">
+                    <h3 data-i18n="web-title">Сайты и Веб-приложения</h3>
+                    <p data-i18n="web-desc">Разработка быстрых, адаптивных и высоконагруженных веб-платформ: от корпоративных сайтов до маркетплейсов.</p>
                 </div>
-                <h3 data-i18n="web-title">Сайты и Веб-приложения</h3>
-                <p data-i18n="web-desc">Современные, быстрые и адаптивные веб-сайты, лендинги и сложные корпоративные порталы для вашего бренда.</p>
             </div>
 
-            <div class="card reveal" style="transition-delay: 0.4s;">
-                <div class="icon-box">
-                    <svg viewBox="0 0 24 24"><path d="M19.3 16.9c.4-.7.7-1.5.7-2.4 0-2.5-2-4.5-4.5-4.5S11 12 11 14.5s2 4.5 4.5 4.5c.9 0 1.7-.3 2.4-.7l3.2 3.2 1.4-1.4-3.2-3.2zm-3.8.1c-1.4 0-2.5-1.1-2.5-2.5s1.1-2.5 2.5-2.5 2.5 1.1 2.5 2.5-1.1 2.5-2.5 2.5zM7 2H5v22h2V2zm4 4H9v18h2V6z"/></svg>
+            <div class="service-card reveal" style="transition-delay: 0.2s;">
+                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80" alt="API" class="service-img">
+                <div class="service-content">
+                    <h3 data-i18n="api-title">Интеграции & API</h3>
+                    <p data-i18n="api-desc">Свяжем любые сервисы воедино. Интеграция с 1С, платежными шлюзами, мессенджерами и государственными системами.</p>
                 </div>
-                <h3 data-i18n="api-title">Интеграции & API</h3>
-                <p data-i18n="api-desc">Свяжем ваши существующие системы (1C, платежные шлюзы, мессенджеры) в единую бесперебойную экосистему.</p>
             </div>
         </div>
     </section>
@@ -238,8 +284,8 @@
     <section class="contact-section" id="contact">
         <div class="contact-container reveal">
             <div class="contact-info">
-                <h2 data-i18n="contact-title">Готовы оцифровать бизнес?</h2>
-                <p data-i18n="contact-desc">Оставьте заявку, и мы свяжемся с вами для обсуждения вашего проекта, оценки сроков и бюджета.</p>
+                <h2 data-i18n="contact-title">Готовы масштабироваться?</h2>
+                <p data-i18n="contact-desc">Оставьте заявку. Мы изучим ваши бизнес-процессы и предложим оптимальное IT-решение.</p>
                 <div class="socials">
                     <a href="https://www.instagram.com/azimutsoft/" target="_blank">
                         <svg style="width:24px;height:24px;fill:white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
@@ -247,19 +293,19 @@
                 </div>
             </div>
 
-            <!-- ФОРМА ДЛЯ n8n -->
+            <!-- ФОРМА n8n -->
             <form id="n8nForm" class="contact-form">
                 <div class="form-group">
-                    <label for="name" data-i18n="form-name">Ваше имя</label>
-                    <input type="text" id="name" name="name" class="form-control" required placeholder="Иван Иванов">
+                    <label for="name" data-i18n="form-name">Имя компании или Ваше имя</label>
+                    <input type="text" id="name" name="name" class="form-control" required placeholder="Например: AzimutSoft">
                 </div>
                 <div class="form-group">
-                    <label for="phone" data-i18n="form-phone">Телефон или Email</label>
+                    <label for="phone" data-i18n="form-phone">Контактные данные</label>
                     <input type="text" id="phone" name="phone" class="form-control" required placeholder="+992 00 000 00 00">
                 </div>
                 <div class="form-group">
-                    <label for="message" data-i18n="form-msg">Сообщение</label>
-                    <textarea id="message" name="message" class="form-control" required placeholder="Опишите вашу задачу..."></textarea>
+                    <label for="message" data-i18n="form-msg">Кратко о задаче</label>
+                    <textarea id="message" name="message" class="form-control" required placeholder="Какую систему нужно разработать?"></textarea>
                 </div>
                 <button type="submit" class="btn" style="width: 100%;" id="submitBtn" data-i18n="form-btn">Отправить заявку</button>
                 <div id="form-message"></div>
@@ -272,7 +318,7 @@
     </footer>
 
     <script>
-        // --- 1. АНИМАЦИИ ПРИ СКРОЛЛЕ (Scroll Reveal) ---
+        // --- 1. SCROLL REVEAL ---
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
@@ -285,89 +331,90 @@
             }
         }
         window.addEventListener("scroll", reveal);
-        reveal(); // Запуск при загрузке
+        reveal();
 
-        // Установка года
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // --- 2. МУЛЬТИЯЗЫЧНОСТЬ ---
+        // --- 2. MULTILANGUAGE ---
         const translations = {
             ru: {
-                "nav-products": "Продукты", "nav-services": "Услуги", "nav-contact": "Контакты", "nav-btn": "Связаться",
-                "hero-title": "Инновационные <span>SaaS-решения</span> для вашего бизнеса",
-                "hero-desc": "Автоматизация процессов, управление лояльностью клиентов и кастомная разработка. Мы создаем технологии, которые помогают вам расти.",
-                "hero-btn": "Узнать больше",
-                "prod-title": "Наши продукты", "prod-subtitle": "Готовые решения для быстрого старта",
-                "queue-desc": "Система электронной очереди. Избавьтесь от хаоса в залах ожидания, распределяйте потоки клиентов и анализируйте эффективность сотрудников.",
-                "loyalty-desc": "Программа лояльности для бизнеса. Кэшбэк, бонусные карты, скидки и глубокая аналитика поведения ваших клиентов для увеличения продаж.",
-                "serv-title": "Кастомная разработка", "serv-subtitle": "Решения, созданные специально под ваши задачи",
-                "crm-title": "Разработка CRM систем", "crm-desc": "Уникальные системы управления бизнесом, которые идеально вписываются в ваши внутренние процессы, без лишнего функционала.",
-                "web-title": "Сайты и Веб-приложения", "web-desc": "Современные, быстрые и адаптивные веб-сайты, лендинги и сложные корпоративные порталы для вашего бренда.",
-                "api-title": "Интеграции & API", "api-desc": "Свяжем ваши существующие системы (1C, платежные шлюзы, мессенджеры) в единую бесперебойную экосистему.",
-                "contact-title": "Готовы оцифровать бизнес?", "contact-desc": "Оставьте заявку, и мы свяжемся с вами для обсуждения вашего проекта, оценки сроков и бюджета.",
-                "form-name": "Ваше имя", "form-phone": "Телефон или Email", "form-msg": "Сообщение", "form-btn": "Отправить заявку",
+                "nav-products": "Продукты", "nav-services": "Услуги", "nav-contact": "Контакты", "nav-btn": "Оставить заявку",
+                "hero-title": "SaaS-решения для <span>оцифровки</span> вашего бизнеса",
+                "hero-desc": "От электронных очередей до систем лояльности и CRM. Внедряем технологии, которые экономят ваше время и увеличивают прибыль.",
+                "hero-btn-1": "Наши продукты", "hero-btn-2": "Связаться",
+                "stat-1-num": "99.9%", "stat-1-text": "Uptime серверов", "stat-2-num": "3+", "stat-2-text": "Готовых SaaS решения", "stat-3-num": "100%", "stat-3-text": "Кастомизация под клиента",
+                "prod-title": "Наши продукты", "prod-subtitle": "Инструменты, готовые к внедрению в ваш бизнес уже сегодня",
+                "queue-desc": "Современная система электронной очереди. Избавьтесь от хаоса в залах ожидания, распределяйте потоки клиентов и анализируйте эффективность сотрудников в реальном времени.",
+                "queue-f1": "Удобные терминалы выдачи талонов", "queue-f2": "Голосовое оповещение", "queue-f3": "Детальная аналитика по операторам",
+                "loyalty-desc": "Комплексная программа лояльности. Возвращайте клиентов с помощью бонусов, кэшбэка и персонализированных предложений на основе истории их покупок.",
+                "loyalty-f1": "Настройка системы кэшбэка", "loyalty-f2": "Электронные карты в Apple/Google Wallet", "loyalty-f3": "RFM-анализ аудитории",
+                "serv-title": "Кастомная разработка", "serv-subtitle": "Если готовых решений недостаточно, мы разработаем продукт с нуля",
+                "crm-title": "Индивидуальные CRM/ERP", "crm-desc": "Уникальные системы управления бизнесом, которые идеально вписываются в ваши процессы, автоматизируя продажи, склад и финансы.",
+                "web-title": "Сайты и Веб-приложения", "web-desc": "Разработка быстрых, адаптивных и высоконагруженных веб-платформ: от корпоративных сайтов до маркетплейсов.",
+                "api-title": "Интеграции & API", "api-desc": "Свяжем любые сервисы воедино. Интеграция с 1С, платежными шлюзами, мессенджерами и государственными системами.",
+                "contact-title": "Готовы масштабироваться?", "contact-desc": "Оставьте заявку. Мы изучим ваши бизнес-процессы и предложим оптимальное IT-решение.",
+                "form-name": "Имя компании или Ваше имя", "form-phone": "Контактные данные", "form-msg": "Кратко о задаче", "form-btn": "Отправить заявку",
                 "footer-text": "Все права защищены."
             },
             en: {
-                "nav-products": "Products", "nav-services": "Services", "nav-contact": "Contact", "nav-btn": "Get in touch",
-                "hero-title": "Innovative <span>SaaS Solutions</span> for your business",
-                "hero-desc": "Process automation, customer loyalty management, and custom development. We build technologies that help you grow.",
-                "hero-btn": "Learn more",
-                "prod-title": "Our Products", "prod-subtitle": "Ready-made solutions for a quick start",
-                "queue-desc": "Electronic queue system. Eliminate chaos in waiting areas, manage customer flows, and analyze employee efficiency.",
-                "loyalty-desc": "Business loyalty program. Cashback, bonus cards, discounts, and deep analytics of customer behavior to increase sales.",
-                "serv-title": "Custom Development", "serv-subtitle": "Solutions built specifically for your needs",
-                "crm-title": "CRM System Development", "crm-desc": "Unique business management systems that fit perfectly into your internal processes without unnecessary features.",
-                "web-title": "Websites & Web Apps", "web-desc": "Modern, fast, and responsive websites, landing pages, and complex corporate portals for your brand.",
-                "api-title": "Integrations & API", "api-desc": "We will connect your existing systems (1C, payment gateways, messengers) into a single, seamless ecosystem.",
-                "contact-title": "Ready to digitize your business?", "contact-desc": "Leave a request, and we will contact you to discuss your project, estimate timelines, and budget.",
-                "form-name": "Your Name", "form-phone": "Phone or Email", "form-msg": "Message", "form-btn": "Send Request",
+                "nav-products": "Products", "nav-services": "Services", "nav-contact": "Contact", "nav-btn": "Get a Quote",
+                "hero-title": "SaaS solutions to <span>digitize</span> your business",
+                "hero-desc": "From electronic queues to loyalty systems and CRM. We implement technologies that save your time and increase profits.",
+                "hero-btn-1": "Our Products", "hero-btn-2": "Contact Us",
+                "stat-1-num": "99.9%", "stat-1-text": "Server Uptime", "stat-2-num": "3+", "stat-2-text": "Ready SaaS Solutions", "stat-3-num": "100%", "stat-3-text": "Client Customization",
+                "prod-title": "Our Products", "prod-subtitle": "Tools ready to be implemented into your business today",
+                "queue-desc": "Modern electronic queue system. Eliminate chaos in waiting rooms, distribute customer flows, and analyze employee efficiency in real-time.",
+                "queue-f1": "Convenient ticket terminals", "queue-f2": "Voice announcements", "queue-f3": "Detailed operator analytics",
+                "loyalty-desc": "Comprehensive loyalty program. Bring customers back with bonuses, cashback, and personalized offers based on their purchase history.",
+                "loyalty-f1": "Cashback system setup", "loyalty-f2": "Digital cards in Apple/Google Wallet", "loyalty-f3": "RFM audience analysis",
+                "serv-title": "Custom Development", "serv-subtitle": "If ready-made solutions aren't enough, we build products from scratch",
+                "crm-title": "Custom CRM/ERP", "crm-desc": "Unique business management systems that fit perfectly into your processes, automating sales, inventory, and finance.",
+                "web-title": "Websites & Web Apps", "web-desc": "Development of fast, responsive, and high-load web platforms: from corporate websites to marketplaces.",
+                "api-title": "Integrations & API", "api-desc": "We connect any services together. Integration with 1C, payment gateways, messengers, and government systems.",
+                "contact-title": "Ready to scale?", "contact-desc": "Leave a request. We will study your business processes and propose the optimal IT solution.",
+                "form-name": "Company Name or Your Name", "form-phone": "Contact Details", "form-msg": "Briefly about the task", "form-btn": "Send Request",
                 "footer-text": "All rights reserved."
             },
             tj: {
-                "nav-products": "Маҳсулот", "nav-services": "Хизматрасониҳо", "nav-contact": "Тамос", "nav-btn": "Тамос гирифтан",
-                "hero-title": "Ҳалли инноватсионии <span>SaaS</span> барои тиҷорати шумо",
-                "hero-desc": "Автоматикунонии равандҳо, идоракунии лоялтӣ ва таҳияи барномаҳои фармоишӣ. Мо технологияҳое месозем, ки ба рушди шумо кӯмак мекунанд.",
-                "hero-btn": "Маълумоти бештар",
-                "prod-title": "Маҳсулоти мо", "prod-subtitle": "Ҳалли тайёр барои оғози зуд",
-                "queue-desc": "Системаи навбати электронӣ. Хаосро дар толорҳои интизорӣ бартараф кунед, ҷараёни мизоҷонро идора кунед ва самаранокии кормандонро таҳлил кунед.",
-                "loyalty-desc": "Барномаи лоялтӣ. Кэшбэк, кортҳои бонусӣ, тахфифҳо ва таҳлили амиқи рафтори мизоҷон барои баланд бардоштани фурӯш.",
-                "serv-title": "Таҳияи барномаҳои фармоишӣ", "serv-subtitle": "Ҳалли махсус барои вазифаҳои шумо",
-                "crm-title": "Таҳияи системаҳои CRM", "crm-desc": "Системаҳои беназири идоракунии тиҷорат, ки ба равандҳои дохилии шумо беҳтарин мувофиқат мекунанд.",
-                "web-title": "Сайтҳо ва Веб-барномаҳо", "web-desc": "Вебсайтҳои муосир, зуд ва мутобиқшаванда барои бренди шумо.",
-                "api-title": "Интегратсия ва API", "api-desc": "Мо системаҳои мавҷудаи шуморо (1C, шлюзҳои пардохт, мессенҷерҳо) ба як экосистемаи ягона пайваст мекунем.",
-                "contact-title": "Омодаед тиҷорати худро рақамӣ кунед?", "contact-desc": "Дархост гузоред ва мо барои муҳокимаи лоиҳаи шумо тамос хоҳем гирифт.",
-                "form-name": "Номи шумо", "form-phone": "Телефон ё Email", "form-msg": "Паём", "form-btn": "Ирсол кардан",
+                "nav-products": "Маҳсулот", "nav-services": "Хизматрасониҳо", "nav-contact": "Тамос", "nav-btn": "Дархост гузоштан",
+                "hero-title": "Ҳалли SaaS барои <span>рақамӣ</span> кардани тиҷорати шумо",
+                "hero-desc": "Аз навбатҳои электронӣ то системаҳои лоялтӣ ва CRM. Технологияҳоеро ҷорӣ мекунем, ки вақти шуморо сарфа ва даромадро зиёд мекунанд.",
+                "hero-btn-1": "Маҳсулоти мо", "hero-btn-2": "Тамос гирифтан",
+                "stat-1-num": "99.9%", "stat-1-text": "Uptime-и серверҳо", "stat-2-num": "3+", "stat-2-text": "Ҳалли тайёри SaaS", "stat-3-num": "100%", "stat-3-text": "Мутобиқсозӣ ба мизоҷ",
+                "prod-title": "Маҳсулоти мо", "prod-subtitle": "Асбобҳое, ки барои ҷорӣ кардан дар тиҷорати шумо омодаанд",
+                "queue-desc": "Системаи муосири навбати электронӣ. Хаосро дар толорҳои интизорӣ нест кунед, ҷараёни мизоҷонро тақсим кунед ва кори кормандонро таҳлил намоед.",
+                "queue-f1": "Терминалҳои қулайи чипта", "queue-f2": "Огоҳиномаи овозӣ", "queue-f3": "Таҳлили муфассали операторҳо",
+                "loyalty-desc": "Барномаи мукаммали лоялтӣ. Мизоҷонро тавассути бонусҳо, кэшбэк ва пешниҳодҳои инфиродӣ бармегардонад.",
+                "loyalty-f1": "Танзими системаи кэшбэк", "loyalty-f2": "Кортҳои электронӣ дар Apple/Google Wallet", "loyalty-f3": "Таҳлили аудиторияи RFM",
+                "serv-title": "Таҳияи барномаҳои фармоишӣ", "serv-subtitle": "Агар ҳалли тайёр кофӣ набошад, мо маҳсулотро аз сифр месозем",
+                "crm-title": "CRM/ERP-и инфиродӣ", "crm-desc": "Системаҳои беназири идоракунии тиҷорат, ки ба равандҳои шумо беҳтарин мувофиқат мекунанд.",
+                "web-title": "Сайтҳо ва Веб-барномаҳо", "web-desc": "Таҳияи веб-платформаҳои зуд ва мутобиқшаванда: аз сайтҳои корпоративӣ то маркетплейсҳо.",
+                "api-title": "Интегратсия ва API", "api-desc": "Мо ҳама гуна хидматҳоро бо ҳам мепайвандам. Интегратсия бо 1C, шлюзҳои пардохт ва мессенҷерҳо.",
+                "contact-title": "Омодаед рушд кунед?", "contact-desc": "Дархост гузоред. Мо равандҳои шуморо меомӯзем ва ҳалли беҳтарини IT-ро пешниҳод мекунем.",
+                "form-name": "Номи ширкат ё номи шумо", "form-phone": "Маълумоти тамос", "form-msg": "Қисқача дар бораи вазифа", "form-btn": "Дархост фиристодан",
                 "footer-text": "Ҳамаи ҳуқуқҳо маҳфузанд."
             }
         };
 
         function changeLang(lang) {
-            // Меняем активную кнопку
             document.querySelectorAll('.lang-switch button').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`btn-${lang}`).classList.add('active');
-
-            // Меняем тексты
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (translations[lang][key]) {
-                    el.innerHTML = translations[lang][key]; // innerHTML чтобы тег <span> работал в заголовке
-                }
+                if (translations[lang][key]) el.innerHTML = translations[lang][key];
             });
         }
 
-        // --- 3. ИНТЕГРАЦИЯ ФОРМЫ С n8n ---
+        // --- 3. FORM -> n8n INTEGRATION ---
         const form = document.getElementById('n8nForm');
         const submitBtn = document.getElementById('submitBtn');
         const formMessage = document.getElementById('form-message');
 
         // ВАЖНО: Вставьте сюда ваш Webhook URL из n8n!
-        const N8N_WEBHOOK_URL = 'https://ваша-ссылка-на-n8n.com/webhook/azimut-lead';
+        const N8N_WEBHOOK_URL = 'https://ВАШ-N8N-URL/webhook/azimut-lead';
 
         form.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Останавливаем стандартную отправку
-
-            // Собираем данные
+            e.preventDefault();
             const formData = {
                 name: document.getElementById('name').value,
                 contact: document.getElementById('phone').value,
@@ -375,11 +422,8 @@
                 source: 'Landing Page'
             };
 
-            // Визуальный отклик
             const originalBtnText = submitBtn.innerText;
-            submitBtn.innerText = 'Отправка...';
-            submitBtn.disabled = true;
-            formMessage.style.display = 'none';
+            submitBtn.innerText = 'Отправка...'; submitBtn.disabled = true; formMessage.style.display = 'none';
 
             try {
                 const response = await fetch(N8N_WEBHOOK_URL, {
@@ -387,22 +431,14 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(formData)
                 });
-
                 if (response.ok) {
                     form.reset();
-                    formMessage.innerText = 'Успешно! Мы скоро с вами свяжемся.';
-                    formMessage.className = 'success-msg';
-                } else {
-                    throw new Error('Server response wasn\'t OK');
-                }
+                    formMessage.innerText = 'Успешно! Мы скоро с вами свяжемся.'; formMessage.className = 'success-msg';
+                } else throw new Error('Error');
             } catch (error) {
-                console.error('Error sending form:', error);
-                formMessage.innerText = 'Ошибка отправки. Попробуйте написать нам в Instagram.';
-                formMessage.className = 'error-msg';
+                formMessage.innerText = 'Ошибка отправки. Попробуйте написать нам в Instagram.'; formMessage.className = 'error-msg';
             } finally {
-                submitBtn.innerText = originalBtnText;
-                submitBtn.disabled = false;
-                formMessage.style.display = 'block';
+                submitBtn.innerText = originalBtnText; submitBtn.disabled = false; formMessage.style.display = 'block';
             }
         });
     </script>
